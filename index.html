@@ -32,7 +32,7 @@
             <section class="about section-block">
                 <h2 class="section-title">About</h2>
                 <p>
-                    I enjoy exploring the intersection of software and hardware, specifically focusing on embedded systems and firmware. Passionate about aerospace technology, my experience includes programming and technical leadership on projects ranging from assistive mobile apps to professional network infrastructure. I am driven to create systems that make machines smarter, more accessible, and highly efficient. 
+                    I enjoy exploring the intersection of software and hardware, specifically focusing on bare-metal C firmware, embedded systems, and low-level peripheral integration. Passionate about aerospace technology and micro-architecture, my experience ranges from register-level C programming to assistive mobile software and professional network infrastructure. I am driven to build resilient systems that make machines smarter, faster, and highly efficient. 
                     <br><br>
                     <strong>Target Trajectory:</strong> Actively seeking undergraduate research opportunities, internships, and collaborative engineering projects focused on embedding fault-tolerant, low-level firmware systems within the defense and aerospace electronics industries.
                 </p>
@@ -44,19 +44,21 @@
                     <div class="skill-category">
                         <h3>Languages</h3>
                         <div class="tags">
+                            <span class="tag">Bare-Metal C</span>
+                            <span class="tag">C</span>
+                            <span class="tag">C++</span>
                             <span class="tag">Java</span>
                             <span class="tag">Kotlin</span>
                             <span class="tag">Dart (Flutter)</span>
-                            <span class="tag">C</span>
-                            <span class="tag">C++</span>
                         </div>
                     </div>
                     <div class="skill-category">
-                        <h3>Tools & Systems</h3>
+                        <h3>Systems & Firmware</h3>
                         <div class="tags">
+                            <span class="tag">Register-Level I/O (MMIO)</span>
                             <span class="tag">Linux (Ubuntu, Pop!_OS)</span>
                             <span class="tag">Git / GitHub</span>
-                            <span class="tag">Android Studio</span>
+                            <span class="tag">Embedded Linux</span>
                             <span class="tag">Wireshark & Nmap</span>
                         </div>
                     </div>
@@ -100,6 +102,36 @@
                     
                     <article class="project-card">
                         <div class="project-content">
+                            <h3 class="project-title">Bare-Metal C Firmware & Register Controller</h3>
+                            <p class="project-desc">Engineered low-level C routines operating directly on hardware memory maps without an operating system or standard runtime overhead. Implemented direct register manipulation (MMIO), bitwise mask flags, custom interrupt handlers, and linker memory management for zero-latency execution.</p>
+                            <div class="project-focus">
+                                <strong>Focus:</strong> Bare-Metal C, Memory-Mapped I/O, Register Control, Interrupts
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-content">
+                            <h3 class="project-title">
+                                <a href="https://github.com/arigrein/OpenCV_Red_Object_Tracking" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">
+                                    Raspberry Pi OpenCV Target Tracker
+                                </a>
+                            </h3>
+                            <p class="project-desc">Engineered a real-time computer vision system leveraging a Raspberry Pi and OpenCV to detect and dynamically track specific color targets. Focused on low-level hardware integration, C/C++ algorithm optimization, and processing visual telemetry.</p>
+                            
+                            <!-- Responsive YouTube Embed -->
+                            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin: 15px 0; border-radius: 8px; border: 1px solid #e1e4e8;">
+                                <iframe src="https://www.youtube.com/embed/-pLHr8OZC00" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="Raspberry Pi Target Tracker Demo"></iframe>
+                            </div>
+
+                            <div class="project-focus">
+                                <strong>Focus:</strong> C, C++, OpenCV, Embedded Linux
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div class="project-content">
                             <h3 class="project-title">
                                 <a href="https://docs.google.com/document/d/1g8ZT3GYODCayJnx7pqG7nQpEk5LoK5djgcuFDK_vJUY/edit?usp=sharing" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">
                                     MIT CRE[AT]E Assistive Prototype
@@ -123,26 +155,6 @@
                             </div>
                         </div>
                     </article>
-
-                    <article class="project-card">
-    <div class="project-content">
-        <h3 class="project-title">
-            <a href="https://github.com/arigrein/OpenCV_Red_Object_Tracking" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">
-                Raspberry Pi OpenCV Target Tracker
-            </a>
-        </h3>
-        <p class="project-desc">Engineered a real-time computer vision system leveraging a Raspberry Pi and OpenCV to detect and dynamically track specific color targets. Focused on low-level hardware integration, algorithm optimization, and processing visual telemetry.</p>
-        
-        <!-- Responsive YouTube Embed -->
-        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin: 15px 0; border-radius: 8px; border: 1px solid #e1e4e8;">
-            <iframe src="https://www.youtube.com/embed/-pLHr8OZC00" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="Raspberry Pi Target Tracker Demo"></iframe>
-        </div>
-
-        <div class="project-focus">
-            <strong>Focus:</strong> C, C++, OpenCV, Embedded Linux
-        </div>
-    </div>
-</article>
 
                 </div>
             </section>
