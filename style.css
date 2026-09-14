@@ -182,6 +182,14 @@ a:hover {
     margin-bottom: 0.75rem;
 }
 
+.project-date {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+}
+
 .project-desc {
     font-size: 0.95rem;
     margin-bottom: 1.25rem;
