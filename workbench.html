@@ -422,7 +422,7 @@
                 <article class="window" style="--line:#ff5a5a">
                     <div class="titlebar">System_Properties.cpl</div>
                     <div class="viewport">
-                        <canvas width="240" height="160" role="img" aria-label="Rotating wireframe model of an open 14-inch business laptop with a red pointing-stick nub in the keyboard" data-model="thinkpad" data-color="#ff5a5a"></canvas>
+                        <canvas width="240" height="160" role="img" aria-label="Rotating wireframe model of an open 14-inch business laptop with a pointing-stick nub, speaker strips beside the keys and a ThinkPad logo on the lid" data-model="thinkpad" data-color="#ff5a5a"></canvas>
                         <span class="vp-label" aria-hidden="true">Perspective, wireframe</span>
                         <span class="readout" aria-hidden="true">rot 000°</span>
                     </div>
@@ -583,6 +583,45 @@
         return o;
     }
 
+    /* ---------- "ThinkPad" wordmark as simple strokes (glyph units: cap height = 1) ---------- */
+    var BOWL = [[0.45, 0.5], [0.3, 0.62], [0.14, 0.62], [0, 0.48], [0, 0.14], [0.14, 0], [0.3, 0], [0.45, 0.12]];
+    var SHOULDER = [[0, 0.45], [0.15, 0.62], [0.38, 0.62], [0.5, 0.45], [0.5, 0]];
+    var GLYPHS = {
+        T: { w: 0.7,  p: [[[0, 1], [0.7, 1]], [[0.35, 1], [0.35, 0]]] },
+        h: { w: 0.5,  p: [[[0, 1], [0, 0]], SHOULDER] },
+        i: { w: 0.1,  p: [[[0.05, 0.62], [0.05, 0]]], dot: [0.05, 0.86] },
+        n: { w: 0.5,  p: [[[0, 0.62], [0, 0]], SHOULDER] },
+        k: { w: 0.5,  p: [[[0, 1], [0, 0]], [[0.45, 0.62], [0.02, 0.3]], [[0.14, 0.4], [0.5, 0]]] },
+        P: { w: 0.55, p: [[[0, 0], [0, 1], [0.38, 1], [0.55, 0.86], [0.55, 0.66], [0.38, 0.52], [0, 0.52]]] },
+        a: { w: 0.45, p: [[[0.45, 0.62], [0.45, 0]], BOWL] },
+        d: { w: 0.45, p: [[[0.45, 1], [0.45, 0]], BOWL] }
+    };
+    // map(a, b) turns a point in text space (a right, b up, in mm) into a 3D point
+    function wordmark(map, unit, ox, oy, ang, L) {
+        var word = 'ThinkPad', x = 0, out = [], ca = Math.cos(ang), sa = Math.sin(ang);
+        function tp(px, py) {
+            var X = px * unit, Y = py * unit;
+            return map(ox + X * ca - Y * sa, oy + X * sa + Y * ca);
+        }
+        word.split('').forEach(function (ch, idx) {
+            var g = GLYPHS[ch], passes = idx < 5 ? [0, 0.09] : [0]; // "Think" is bold, "Pad" is regular
+            passes.forEach(function (dx) {
+                g.p.forEach(function (pl) {
+                    for (var j = 0; j < pl.length - 1; j++) {
+                        out.push(seg(tp(x + dx + pl[j][0], pl[j][1]), tp(x + dx + pl[j + 1][0], pl[j + 1][1]), L));
+                    }
+                });
+            });
+            if (g.dot) {   // the dot on the "i"
+                var pts = [], k;
+                for (k = 0; k < 6; k++) pts.push(tp(x + g.dot[0] + 0.11 * Math.cos(k / 6 * Math.PI * 2), g.dot[1] + 0.11 * Math.sin(k / 6 * Math.PI * 2)));
+                out = out.concat(loop(pts, 0));
+            }
+            x += g.w + 0.18;
+        });
+        return out;
+    }
+
     /* ---------- laptop keyboard ---------- */
     function deckRect(xa, xb, za, zb, topY, L) {
         return loop([[xa, topY(za), za], [xb, topY(za), za], [xb, topY(zb), zb], [xa, topY(zb), zb]], L);
@@ -596,6 +635,17 @@
             { d: d, keys: [1.75].concat(ones(11), [2.25]) },
             { d: d, keys: [2.25].concat(ones(10), [2.75]) },
             { d: d, keys: [1, 1, 1, 1, 5, 1, 1, 1], arrows: true }
+        ];
+    }
+    // ThinkPad P14s: 17-key half-height function row, Copilot key, 2 x 3 arrow/page cluster
+    function tpRows(dF, d) {
+        return [
+            { d: dF, keys: ones(17) },
+            { d: d, keys: ones(13).concat([2]) },
+            { d: d, keys: [1.5].concat(ones(12), [1.5]) },
+            { d: d, keys: [1.75].concat(ones(11), [2.25]) },
+            { d: d, keys: [2.25].concat(ones(10), [2.75]) },
+            { d: d, keys: [1, 1, 1, 1, 5, 1, 1, 1], arrows: 'tp' }
         ];
     }
     function macRows(dF, d) {
@@ -617,7 +667,12 @@
                 e = e.concat(deckRect(x + gap / 2, x + w * unit - gap / 2, z0, z1, topY, L));
                 x += w * unit;
             });
-            if (r.arrows) { // left / stacked up-down / right, all half height
+            if (r.arrows === 'tp') { // page up / up / page down above left / down / right
+                for (var q = 0; q < 3; q++) {
+                    var xa = x + q * unit + gap / 2, xb = x + (q + 1) * unit - gap / 2;
+                    e = e.concat(deckRect(xa, xb, z0, mid - gap / 4, topY, L), deckRect(xa, xb, mid + gap / 4, z1, topY, L));
+                }
+            } else if (r.arrows) { // left / stacked up-down / right, all half height
                 e = e.concat(deckRect(x + gap / 2, x + unit - gap / 2, mid, z1, topY, L));
                 e = e.concat(deckRect(x + unit + gap / 2, x + 2 * unit - gap / 2, z0, mid - gap / 4, topY, L));
                 e = e.concat(deckRect(x + unit + gap / 2, x + 2 * unit - gap / 2, mid + gap / 4, z1, topY, L));
@@ -637,8 +692,13 @@
         e = boxV([[x0,0,zb],[x1,0,zb],[x1,hb,zb],[x0,hb,zb],[x0,0,zf],[x1,0,zf],[x1,hf,zf],[x0,hf,zf]], 0);
 
         // keyboard
-        var k = s.kb, rows = (k.layout === 'mac' ? macRows : pcRows)(k.dF, k.p);
-        e = e.concat(keyboard(rows, 0, k.zStart, k.p, topY, 1.4, 1));
+        var k = s.kb, rows = (k.layout === 'mac' ? macRows : k.layout === 'tp' ? tpRows : pcRows)(k.dF, k.p);
+        e = e.concat(keyboard(rows, 0, k.zStart, k.p, topY, k.gap || 1.4, 1));
+        if (s.kbFrame) { // raised frame around the keys
+            var kEnd = k.zStart, fw = 7.5 * k.p + 3.5;
+            rows.forEach(function (r) { kEnd += r.d; });
+            e = e.concat(deckRect(-fw, fw, k.zStart - 3.5, kEnd + 3.5, topY, 1));
+        }
         if (s.trackpoint) {
             var tz = k.zStart + rows[0].d + rows[1].d + rows[2].d + rows[3].d, tx = -0.05 * 15 * k.p;
             e = e.concat(ring(tx, topY(tz) + 0.6, tz, 1.8, 8, 'y', 0));
@@ -652,6 +712,13 @@
                 e.push(seg([x, topY(sp[2]), sp[2]], [x, topY(sp[3]), sp[3]], 1));
             }
         });
+        (s.grills || []).forEach(function (g) { // perforated speaker strips
+            e = e.concat(deckRect(g[0], g[1], g[2], g[3], topY, 1));
+            for (var zz = g[2] + 3; zz < g[3]; zz += 3.2) e.push(seg([g[0], topY(zz), zz], [g[1], topY(zz), zz], 1));
+        });
+        if (s.deckLogo) {
+            e = e.concat(wordmark(function (a, b) { return [a, topY(-b) + 0.2, -b]; }, s.deckLogo.unit, s.deckLogo.ox, s.deckLogo.oy, s.deckLogo.ang, 1));
+        }
         (s.deckRings || []).forEach(function (r) { e = e.concat(ring(r[0], topY(r[1]), r[1], r[2], 10, 'y', 0)); });
         (s.deckRects || []).forEach(function (r) { e = e.concat(deckRect(r[0], r[1], r[2], r[3], topY, 1)); });
         (s.feet || []).forEach(function (f) {
@@ -678,9 +745,17 @@
             for (j = 0; j < n; j++) { a = (j / n) * Math.PI * 2; p.push(P(cx + r * Math.cos(a), sv + r * Math.sin(a), tt)); }
             return loop(p, 1);
         }
-        if (s.webcam) e = e.concat(lring(0, L - b.top / 2, 1.8, 0, 8));
+        if (s.hump) { // raised camera housing on the top edge of the lid
+            var hw = s.hump.w / 2, hh = s.hump.h;
+            e = e.concat(boxV([P(-hw, L, 0), P(hw, L, 0), P(hw, L + hh, 0), P(-hw, L + hh, 0),
+                               P(-hw, L, -t), P(hw, L, -t), P(hw, L + hh, -t), P(-hw, L + hh, -t)], 0));
+            e = e.concat(lring(0, L - 3, 2.4, 0, 8), loop([P(7, L - 4.6, 0), P(19, L - 4.6, 0), P(19, L - 1.6, 0), P(7, L - 1.6, 0)], 1));
+        } else if (s.webcam) e = e.concat(lring(0, L - b.top / 2, 1.8, 0, 8));
         (s.lidBack || []).forEach(function (f) {
-            if (f.r) e = e.concat(lring(f.x, f.s, f.r, -t, 12));
+            if (f.logo) {
+                // seen from behind (screen open), laptop-right is on the viewer's left, so text runs toward -x
+                e = e.concat(wordmark(function (a, b2) { return P(f.x0 - a, f.s0 + b2, -t); }, f.unit, 0, 0, f.ang || 0, 0));
+            } else if (f.r) e = e.concat(lring(f.x, f.s, f.r, -t, 12));
             else e = e.concat(loop([P(f.x0, f.s0, -t), P(f.x1, f.s0, -t), P(f.x1, f.s1, -t), P(f.x0, f.s1, -t)], 1));
         });
         return e;
@@ -740,22 +815,27 @@
         return e;
     }
 
-    // Lenovo ThinkPad P14s: 314 x 220 x 17.7 mm, 14" 16:10, pointing stick and three buttons
+    // Lenovo ThinkPad P14s Gen 6 AMD: 314 x 220 x 17.5 mm, 14" 16:10, camera hump on the lid,
+    // top-firing speaker strips either side of the keyboard, round power button, three buttons over the touchpad
     function thinkpad() {
         return laptop({
-            W: 314, D: 220, hb: 17.7, hf: 17.7, lidL: 216, lidT: 7.5, tilt: 0.33,
-            bezel: { side: 5.5, bot: 14, top: 12 }, webcam: true,
-            lidBack: [{ x0: -148, x1: -112, s0: 10, s1: 17 }, { x: -104, s: 13.5, r: 1.6 }],
-            kb: { layout: 'pc', p: 18.5, dF: 11.5, zStart: -86 }, trackpoint: true,
-            buttons: { z0: 24, z1: 34, rects: [[-56, -19], [-14, 14], [19, 56]] },
-            tpad: { w: 112, z0: 37, z1: 99 },
-            speakers: [[-153, -147, -80, -30], [147, 153, -80, -30]],
-            deckRings: [[143, -98, 4], [143, -98, 1.8]],
-            deckRects: [[84, 96, 55, 68]],
+            W: 314, D: 220, hb: 17.5, hf: 17.5, lidL: 216, lidT: 7, tilt: 0.33,
+            bezel: { side: 6.5, bot: 12, top: 11 }, hump: { w: 105, h: 4.5 },
+            lidBack: [
+                { x0: -145, x1: -135, s0: 11, s1: 47 },            // badge near the hinge, laptop's left
+                { logo: true, x0: 139, s0: 166, unit: 9, ang: 0.785 }   // ThinkPad logo, top-left corner as seen from behind, letter tops toward the corner
+            ],
+            kb: { layout: 'tp', p: 18.2, dF: 11, zStart: -88, gap: 1.6 }, kbFrame: true, trackpoint: true,
+            buttons: { z0: 21, z1: 32, rects: [[-50, -10], [-8, 8], [10, 50]] },
+            tpad: { w: 115, z0: 34, z1: 97 },
+            grills: [[-152, -142, -70, 8], [142, 152, -70, 8]],
+            deckRings: [[147, -82.5, 6], [147, -82.5, 3.2], [139, -91, 0.9]],      // power button + LED
+            deckRects: [[-149, -127, 76, 95], [-147.5, -128.5, 77.5, 93.5]],      // processor sticker
+            deckLogo: { unit: 5.2, ox: 100, oy: -92, ang: 0.6 },                  // palm-rest wordmark
             feet: [[-130, -88, 24, 10], [130, -88, 24, 10], [-130, 88, 24, 10], [130, 88, 24, 10]],
             portsL: [[5.5, 9.5, -75, -66], [5.5, 9.5, -55, -46], [4, 11, -30, -15], [5.5, 9.5, 0, 9]],
             portsR: [[4, 11, -70, -56], [4, 11, -45, -31], [6, 9, -15, -9]],
-            hinges: [[-129, 21, -108, 22, 12, 14], [129, 21, -108, 22, 12, 14]]
+            hinges: [[-112, 19, -106, 14, 9, 10], [112, 19, -106, 14, 9, 10]]
         });
     }
 
