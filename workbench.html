@@ -407,7 +407,7 @@
             <div class="hardware-grid">
 
                 <article class="window" style="--line:#3dff8a">
-                    <div class="titlebar">ELEGOO_UNO_R3.exe</div>
+                    <div class="titlebar">uno-r3.igs</div>
                     <div class="viewport">
                         <canvas width="240" height="160" role="img" aria-label="Rotating wireframe model of a microcontroller board with USB and power jacks, a socketed chip and pin headers" data-model="uno" data-color="#3dff8a"></canvas>
                         <span class="vp-label" aria-hidden="true">Perspective, wireframe</span>
@@ -420,7 +420,7 @@
                 </article>
 
                 <article class="window" style="--line:#ff5a5a">
-                    <div class="titlebar">System_Properties.cpl</div>
+                    <div class="titlebar">p14s.igs</div>
                     <div class="viewport">
                         <canvas width="240" height="160" role="img" aria-label="Rotating wireframe model of an open 14-inch business laptop with a pointing-stick nub, speaker strips beside the keys and a ThinkPad logo on the lid" data-model="thinkpad" data-color="#ff5a5a"></canvas>
                         <span class="vp-label" aria-hidden="true">Perspective, wireframe</span>
@@ -433,7 +433,7 @@
                 </article>
 
                 <article class="window" style="--line:#4de1ff">
-                    <div class="titlebar">Dell_XPS.sys</div>
+                    <div class="titlebar">xps-8920.igs</div>
                     <div class="viewport">
                         <canvas width="240" height="160" role="img" aria-label="Rotating wireframe model of a desktop tower computer showing its front ports, rear slots and internal parts" data-model="tower" data-color="#4de1ff"></canvas>
                         <span class="vp-label" aria-hidden="true">Perspective, wireframe</span>
@@ -446,7 +446,7 @@
                 </article>
 
                 <article class="window" style="--line:#e8f0ee">
-                    <div class="titlebar">MacBook_Air_Network.diag</div>
+                    <div class="titlebar">macbook-air.igs</div>
                     <div class="viewport">
                         <canvas width="240" height="160" role="img" aria-label="Rotating wireframe model of a thin wedge-shaped aluminum laptop" data-model="air" data-color="#e8f0ee"></canvas>
                         <span class="vp-label" aria-hidden="true">Perspective, wireframe</span>
@@ -459,7 +459,7 @@
                 </article>
 
                 <article class="window" style="--line:#ffe14d">
-                    <div class="titlebar">Display_Settings.drv</div>
+                    <div class="titlebar">57h93.igs</div>
                     <div class="viewport">
                         <canvas width="240" height="160" role="img" aria-label="Rotating wireframe model of a large widescreen rear projection television with a sloped rear housing" data-model="tv" data-color="#ffe14d"></canvas>
                         <span class="vp-label" aria-hidden="true">Perspective, wireframe</span>
@@ -472,7 +472,7 @@
                 </article>
 
                 <article class="window" style="--line:#ff6bff">
-                    <div class="titlebar">Command_Prompt.cmd</div>
+                    <div class="titlebar">presario-1700t.igs</div>
                     <div class="viewport">
                         <canvas width="240" height="160" role="img" aria-label="Rotating wireframe model of a thick early-2000s laptop with a drive on its side and ports on the back" data-model="presario" data-color="#ff6bff"></canvas>
                         <span class="vp-label" aria-hidden="true">Perspective, wireframe</span>
@@ -505,7 +505,7 @@
         <span class="prompt">Command:</span>
         <span class="typed"><span id="cmd"></span><span class="caret"></span></span>
         <span class="coords" id="coords">X 0000  Y 0000</span>
-        <button class="cmd-btn" id="crt-toggle" type="button" aria-pressed="true">CRT warp: on</button>
+        <button class="cmd-btn" id="crt-toggle" type="button" aria-pressed="false">CRT warp: off</button>
     </div>
 
 </div>
@@ -1107,12 +1107,10 @@
         if (remember) { try { localStorage.setItem('crt-warp', on ? '1' : '0'); } catch (e) {} }
     }
 
-    // Default: on for desktop-sized screens, off for touch devices and Safari (patchy support for this filter)
+    // Default: off. The toggle turns it on, and the choice is remembered in this browser.
     var stored = null;
     try { stored = localStorage.getItem('crt-warp'); } catch (e) {}
-    var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    var coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
-    var wantOn = forced ? true : stored !== null ? stored === '1' : (window.innerWidth >= 700 && !coarse && !isSafari);
+    var wantOn = forced ? true : stored === '1';
     setWarp(wantOn, false);
 
     btn.addEventListener('click', function (e) {
