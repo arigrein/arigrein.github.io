@@ -706,6 +706,112 @@
         .boot-blocks, .np-win.opening { animation: none; }
     }
 
+    /* --- more CAD easter eggs: menus, selection, layers, themes --- */
+    .menu-plain { color: var(--ink-dim); font-weight: normal; }
+    .menu-list button[data-cmd] { display: flex; justify-content: space-between; gap: 28px; white-space: nowrap; }
+    .menu-list button[data-cmd]::before { content: none; }
+    .menu-list .k { color: var(--ink-dim); }
+    #crt:not(.warp) .menu-list button:hover .k, .menu-list button.hot .k, .menu-list button:focus-visible .k { color: #000; }
+    .menu-sep { height: 1px; margin: 4px 0; background: var(--line-dim); }
+    .ctx { position: absolute; top: 0; left: 0; }
+
+    .menubar button.clock {
+        height: 100%;
+        padding: 0 40px 0 12px;
+        background: none;
+        border: 0;
+        color: var(--ink);
+        font: inherit;
+        font-variant-numeric: tabular-nums;
+        text-shadow: inherit;
+    }
+    #crt:not(.warp) .menubar button.clock:hover, .menubar button.clock.hot { color: var(--accent); }
+
+    .cmdline button.coords { padding: 0; background: none; border: 0; font: inherit; text-shadow: inherit; }
+    .cmdline button.coords.off { opacity: 0.45; }
+    #crt:not(.warp) .cmdline button.coords:hover, .cmdline button.coords.hot { text-decoration: underline dotted; }
+
+    .titlebar.sw::before { content: none; }
+    .swatch { width: 9px; height: 9px; padding: 0; border: 0; background: var(--line); flex-shrink: 0; }
+    #crt:not(.warp) .swatch:hover, .swatch.hot { outline: 1px solid var(--ink); outline-offset: 2px; }
+
+    .sb { padding: 0; background: none; border: 0; color: inherit; font: inherit; text-shadow: inherit; }
+    #crt:not(.warp) .sb:hover, .sb.hot { color: var(--accent); text-decoration: underline dotted; }
+
+    .readout { background: none; border: 0; padding: 0; font-family: inherit; text-shadow: inherit; pointer-events: auto; }
+    #crt:not(.warp) .readout:hover, .readout.hot { color: var(--accent); text-decoration: underline dotted; }
+
+    .window { position: relative; }
+    .window.selected { outline: 1px dashed var(--accent); outline-offset: 4px; }
+    .window.selected::after {
+        content: "";
+        position: absolute;
+        inset: -4px;
+        pointer-events: none;
+        background:
+            linear-gradient(var(--accent), var(--accent)) 0 0 / 7px 7px no-repeat,
+            linear-gradient(var(--accent), var(--accent)) 50% 0 / 7px 7px no-repeat,
+            linear-gradient(var(--accent), var(--accent)) 100% 0 / 7px 7px no-repeat,
+            linear-gradient(var(--accent), var(--accent)) 0 50% / 7px 7px no-repeat,
+            linear-gradient(var(--accent), var(--accent)) 100% 50% / 7px 7px no-repeat,
+            linear-gradient(var(--accent), var(--accent)) 0 100% / 7px 7px no-repeat,
+            linear-gradient(var(--accent), var(--accent)) 50% 100% / 7px 7px no-repeat,
+            linear-gradient(var(--accent), var(--accent)) 100% 100% / 7px 7px no-repeat;
+    }
+    .window.erased { display: none; }
+    .window.frozen .viewport canvas { opacity: 0.12; }
+    .window.frozen .titlebar { opacity: 0.6; }
+    .window.collapsed .viewport, .window.collapsed .content, .window.collapsed .statusbar { display: none; }
+    .hardware-grid .window.collapsed { height: auto; align-self: start; }
+
+    .draw-layer line, .draw-layer circle, .draw-layer rect { stroke: var(--draw, var(--accent)); }
+    .draw-layer rect { stroke-width: 1.5; fill: none; vector-effect: non-scaling-stroke; }
+    .draw-layer text { fill: var(--draw, var(--accent)); stroke: none; font: 12px var(--mono); }
+    .draw-layer .dash, .draw-layer .dash line { stroke-dasharray: 8 4; }
+    #osnap-mark { stroke: var(--warn); stroke-width: 1.5; fill: none; vector-effect: non-scaling-stroke; }
+    #crt.lwt .draw-layer line, #crt.lwt .draw-layer circle, #crt.lwt .draw-layer rect { stroke-width: 3; }
+
+    #crt.blueprint {
+        --bg: #0a2a6a;
+        --panel: rgba(8, 36, 92, 0.9);
+        --line: #cfe3ff;
+        --line-dim: #5d84c9;
+        --ink: #eaf3ff;
+        --ink-dim: #a9c4f0;
+        --accent: #ffffff;
+        --warn: #ffe9a8;
+        background-image:
+            linear-gradient(rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.22) 1px, transparent 1px),
+            linear-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+    }
+    #crt.blueprint.nogrid { background-image: none; }
+    #crt.blueprint .window { --line: #cfe3ff !important; }
+    #crt.blueprint .menubar, #crt.blueprint .cmdline, #crt.blueprint .menu-list { background: #08235c; }
+    #crt.blueprint .viewport { background: #0b2a6b; }
+    #crt.blueprint .cmdlog { background: rgba(8, 35, 92, 0.96); }
+
+    @media (max-width: 900px) {
+        .cmdline .st-extra { display: none; }
+    }
+    @media (max-width: 560px) {
+        .menubar .menu-collapsible { display: none; }
+    }
+
+    /* Notepad menus (Windows XP mode) */
+    .np-m { position: relative; }
+    .np-mb { padding: 1px 6px; background: none; border: 0; font: 11px Tahoma, "Segoe UI", sans-serif; color: #000; }
+    .np-mb:hover, .np-mb:focus-visible { background: #316ac5; color: #fff; outline: none; }
+    .np-menu { gap: 2px; }
+    .np-dd { position: absolute; top: 100%; left: 0; min-width: 150px; z-index: 5; background: #fff; border: 1px solid #aca899; box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3); }
+    .np-dd button { display: block; width: 100%; padding: 3px 22px; text-align: left; background: none; border: 0; font: 11px Tahoma, "Segoe UI", sans-serif; color: #000; }
+    .np-dd button:hover:not([disabled]), .np-dd button:focus-visible { background: #316ac5; color: #fff; outline: none; }
+    .np-dd button[disabled] { color: #a0a0a0; }
+    .np-dd button[aria-checked="true"]::before { content: "\2713"; position: absolute; margin-left: -14px; }
+    .xp-tray-btn { padding: 0; background: none; border: 0; color: #fff; font: inherit; }
+    .xp-tray-btn:hover { text-decoration: underline; }
+
     /* =========================================================
        Monitor effects (outside the warped layer, so they stay cheap)
        ========================================================= */
@@ -826,8 +932,8 @@
                     <button class="button" onclick="exportWorkbenchLog()">Export Log.txt</button>
                 </div>
                 <div class="statusbar">
-                    <span>6 devices logged</span>
-                    <span>Ln 1, Col 1</span>
+                    <button class="sb" id="sb-count" type="button" title="List the drawings">6 devices logged</button>
+                    <button class="sb" id="sb-pos" type="button" title="Zoom to the top">Ln 1, Col 1</button>
                 </div>
             </div>
 
@@ -835,11 +941,11 @@
             <div class="hardware-grid">
 
                 <article class="window" style="--line:#3dff8a">
-                    <div class="titlebar">uno-r3.igs</div>
+                    <div class="titlebar sw"><button class="swatch" type="button" title="Freeze / thaw this layer" aria-label="Freeze or thaw layer uno-r3.igs"></button>uno-r3.igs</div>
                     <div class="viewport">
                         <canvas width="240" height="160" role="img" aria-label="Rotating wireframe model of a microcontroller board with USB and power jacks, a socketed chip and pin headers" data-model="uno" data-color="#3dff8a"></canvas>
                         <button class="vp-label" type="button" title="Click to change view">Perspective, wireframe</button>
-                        <span class="readout" aria-hidden="true">rot 000°</span>
+                        <button class="readout" type="button" title="Click to lock or unlock this view's rotation">rot 000°</button>
                     </div>
                     <div class="content">
                         <h3>ELEGOO UNO R3</h3>
@@ -848,11 +954,11 @@
                 </article>
 
                 <article class="window" style="--line:#ff5a5a">
-                    <div class="titlebar">p14s.igs</div>
+                    <div class="titlebar sw"><button class="swatch" type="button" title="Freeze / thaw this layer" aria-label="Freeze or thaw layer p14s.igs"></button>p14s.igs</div>
                     <div class="viewport">
                         <canvas width="240" height="160" role="img" aria-label="Rotating wireframe model of an open 14-inch business laptop with a pointing-stick nub, speaker strips beside the keys and a ThinkPad logo on the lid" data-model="thinkpad" data-color="#ff5a5a"></canvas>
                         <button class="vp-label" type="button" title="Click to change view">Perspective, wireframe</button>
-                        <span class="readout" aria-hidden="true">rot 000°</span>
+                        <button class="readout" type="button" title="Click to lock or unlock this view's rotation">rot 000°</button>
                     </div>
                     <div class="content">
                         <h3>Lenovo ThinkPad P14s AMD Gen 6</h3>
@@ -861,11 +967,11 @@
                 </article>
 
                 <article class="window" style="--line:#4de1ff">
-                    <div class="titlebar">xps-8920.igs</div>
+                    <div class="titlebar sw"><button class="swatch" type="button" title="Freeze / thaw this layer" aria-label="Freeze or thaw layer xps-8920.igs"></button>xps-8920.igs</div>
                     <div class="viewport">
                         <canvas width="240" height="160" role="img" aria-label="Rotating wireframe model of a desktop tower computer showing its front ports, rear slots and internal parts" data-model="tower" data-color="#4de1ff"></canvas>
                         <button class="vp-label" type="button" title="Click to change view">Perspective, wireframe</button>
-                        <span class="readout" aria-hidden="true">rot 000°</span>
+                        <button class="readout" type="button" title="Click to lock or unlock this view's rotation">rot 000°</button>
                     </div>
                     <div class="content">
                         <h3>Dell XPS 8920 Desktop</h3>
@@ -874,11 +980,11 @@
                 </article>
 
                 <article class="window" style="--line:#e8f0ee">
-                    <div class="titlebar">macbook-air.igs</div>
+                    <div class="titlebar sw"><button class="swatch" type="button" title="Freeze / thaw this layer" aria-label="Freeze or thaw layer macbook-air.igs"></button>macbook-air.igs</div>
                     <div class="viewport">
                         <canvas width="240" height="160" role="img" aria-label="Rotating wireframe model of a thin wedge-shaped aluminum laptop" data-model="air" data-color="#e8f0ee"></canvas>
                         <button class="vp-label" type="button" title="Click to change view">Perspective, wireframe</button>
-                        <span class="readout" aria-hidden="true">rot 000°</span>
+                        <button class="readout" type="button" title="Click to lock or unlock this view's rotation">rot 000°</button>
                     </div>
                     <div class="content">
                         <h3>2013 MacBook Air</h3>
@@ -887,11 +993,11 @@
                 </article>
 
                 <article class="window" style="--line:#ffe14d">
-                    <div class="titlebar">57h93.igs</div>
+                    <div class="titlebar sw"><button class="swatch" type="button" title="Freeze / thaw this layer" aria-label="Freeze or thaw layer 57h93.igs"></button>57h93.igs</div>
                     <div class="viewport">
                         <canvas width="240" height="160" role="img" aria-label="Rotating wireframe model of a large widescreen rear projection television with a sloped rear housing" data-model="tv" data-color="#ffe14d"></canvas>
                         <button class="vp-label" type="button" title="Click to change view">Perspective, wireframe</button>
-                        <span class="readout" aria-hidden="true">rot 000°</span>
+                        <button class="readout" type="button" title="Click to lock or unlock this view's rotation">rot 000°</button>
                     </div>
                     <div class="content">
                         <h3>Toshiba 57H93</h3>
@@ -900,11 +1006,11 @@
                 </article>
 
                 <article class="window" style="--line:#ff6bff">
-                    <div class="titlebar">presario-1700t.igs</div>
+                    <div class="titlebar sw"><button class="swatch" type="button" title="Freeze / thaw this layer" aria-label="Freeze or thaw layer presario-1700t.igs"></button>presario-1700t.igs</div>
                     <div class="viewport">
                         <canvas width="240" height="160" role="img" aria-label="Rotating wireframe model of a thick early-2000s laptop with a drive on its side and ports on the back" data-model="presario" data-color="#ff6bff"></canvas>
                         <button class="vp-label" type="button" title="Click to change view">Perspective, wireframe</button>
-                        <span class="readout" aria-hidden="true">rot 000°</span>
+                        <button class="readout" type="button" title="Click to lock or unlock this view's rotation">rot 000°</button>
                     </div>
                     <div class="content">
                         <h3>2001 Compaq Presario 1700T</h3>
@@ -920,21 +1026,22 @@
                 <div class="content notes" id="notes">
                     <h3>General notes</h3>
                     <p>1. The 3D models are illustrative wireframes, not engineering drawings. Dimensions are approximate.</p>
-                    <p>2. This is work in progress and was made with Anthropic Claude while experimenting with its features.</p>
+                    <p>2. Made with Claude, an AI assistant from Anthropic, while experimenting with its features.</p>
                 </div>
             </div>
         </div>
-        <svg class="draw-layer" id="draw" aria-hidden="true"></svg>
+        <svg class="draw-layer" id="draw" aria-hidden="true">
+            <defs>
+                <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                    <path d="M0 0V8" style="stroke: var(--accent); stroke-width: 1; fill: none"/>
+                </pattern>
+            </defs>
+        </svg>
     </div>
 
     <!-- Menu bar -->
     <nav class="menubar" aria-label="Site">
         <a href="index.html">⌂ Home</a>
-        <span class="menu-static" aria-hidden="true">File</span>
-        <span class="menu-static" aria-hidden="true">Edit</span>
-        <span class="menu-static" aria-hidden="true">View</span>
-        <span class="menu-static" aria-hidden="true">Draw</span>
-        <span class="menu-static" aria-hidden="true">Modify</span>
         <div class="menu-drop" id="mode-menu">
             <button class="menu-btn" id="mode-btn" type="button" aria-haspopup="menu" aria-expanded="false">Mode ▾</button>
             <div class="menu-list" id="mode-list" role="menu" hidden>
@@ -943,20 +1050,24 @@
             </div>
         </div>
         <span class="spacer"></span>
-        <span class="clock" id="clock">12:00 PM</span>
+        <button class="clock" id="clock" type="button" title="Click to switch 12/24-hour">12:00 PM</button>
     </nav>
 
     <!-- Command line -->
     <div class="cmdline">
         <label class="prompt" id="cmd-prompt" for="cmd-input">Command:</label>
         <input class="cmd-input" id="cmd-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type HELP" aria-label="Command line">
-        <span class="coords" id="coords">X 0000  Y 0000</span>
+        <button class="coords" id="coords" type="button" title="Click to change the coordinate display (F6)">X 0000  Y 0000</button>
         <button class="cmd-btn" id="st-grid" type="button" aria-pressed="true">GRID</button>
+        <button class="cmd-btn st-extra" id="st-snap" type="button" aria-pressed="false">SNAP</button>
         <button class="cmd-btn" id="st-ortho" type="button" aria-pressed="false">ORTHO</button>
+        <button class="cmd-btn st-extra" id="st-osnap" type="button" aria-pressed="false">OSNAP</button>
+        <button class="cmd-btn st-extra" id="st-lwt" type="button" aria-pressed="false">LWT</button>
         <button class="cmd-btn" id="crt-toggle" type="button" aria-pressed="false">CRT warp: off</button>
     </div>
 
     <div class="cmdlog" id="cmd-log" aria-live="polite" hidden></div>
+    <div class="menu-list ctx" id="ctx" role="menu" hidden></div>
 
     <!-- crosshair cursor (CROSSHAIR command) -->
     <div class="xh xh-h" id="xh-h"></div>
@@ -993,7 +1104,7 @@
     <div class="xp-taskbar">
         <button class="start-btn" id="xp-start" type="button" aria-haspopup="true" aria-expanded="false"><span class="start-logo">⊞</span> start</button>
         <div class="xp-tasks" id="xp-tasks"></div>
-        <div class="xp-tray"><span aria-hidden="true">🔊</span><span id="xp-clock">12:00 PM</span></div>
+        <div class="xp-tray"><button class="xp-tray-btn" id="xp-vol" type="button" aria-label="Volume">🔊</button><button class="xp-tray-btn" id="xp-clockbtn" type="button"><span id="xp-clock">12:00 PM</span></button></div>
     </div>
 
     <div class="xp-startmenu" id="xp-startmenu" hidden>
@@ -1473,7 +1584,9 @@
         var AX = [[1, 0, 0, pack(255, 80, 80)], [0, 1, 0, pack(80, 255, 110)], [0, 0, 1, pack(100, 150, 255)]];
         this.visible = true;
         this.phase = phase;
-        var self = this, label = canvas.parentNode.querySelector('.vp-label');
+        var self = this, label = canvas.parentNode.querySelector('.vp-label'), lastAngle = 0;
+        this.locked = false;
+        this.lockAngle = 0;
         this.view = 0;
         this.dirty = true;
 
@@ -1491,6 +1604,7 @@
         }
 
         this.render = function (angle) {
+            lastAngle = angle;
             var vw = VIEWS[self.view], tilt = vw.tilt === undefined ? TILT : vw.tilt;
             if (vw.ang !== undefined) angle = vw.ang;
             var Dd = self.view === 0 ? D : D * 40;   // far "camera" for the flat views
@@ -1530,9 +1644,27 @@
 
             ctx.putImageData(img, 0, 0);
             var deg = Math.round((((angle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2)) * 180 / Math.PI) % 360;
-            if (readout) readout.textContent = self.view === 0 ? 'rot ' + String(deg).padStart(3, '0') + '\u00B0' : vw.n.toLowerCase() + ' view';
+            if (readout) readout.textContent = self.view === 0 ? 'rot ' + String(deg).padStart(3, '0') + '\u00B0' + (self.locked ? ' locked' : '') : vw.n.toLowerCase() + ' view';
         };
-        this.draw = function (t) { self.render(reduce ? 0.7 : t + self.phase); self.dirty = false; };
+        this.draw = function (t) {
+            self.render(self.locked ? self.lockAngle : (reduce ? 0.7 : t + self.phase));
+            self.dirty = false;
+        };
+        this.toggleLock = function () {
+            self.locked = !self.locked;
+            if (self.locked) self.lockAngle = lastAngle;
+            self.dirty = true;
+            self.draw(vt);
+            return self.locked;
+        };
+        var base0 = base, bg0 = BG, grid0 = GRID;
+        this.setTheme = function (on) {   // blueprint: white lines on blue
+            base = on ? [234, 243, 255] : base0;
+            layers = [base, [base[0] * 0.55, base[1] * 0.55, base[2] * 0.55]];
+            BG = on ? pack(11, 42, 107) : bg0;
+            GRID = on ? pack(52, 92, 168) : grid0;
+            self.dirty = true;
+        };
         this.setView = function (i) {
             self.view = ((i % VIEWS.length) + VIEWS.length) % VIEWS.length;
             if (label) label.textContent = VIEWS[self.view].n + ', wireframe';
@@ -1556,6 +1688,8 @@
         var s = c._scene, lab = c.parentNode.querySelector('.vp-label');
         c.addEventListener('click', function () { s.cycleView(); });
         if (lab) lab.addEventListener('click', function () { s.cycleView(); });
+        var ro = c.parentNode.querySelector('.readout');
+        if (ro) ro.addEventListener('click', function () { s.toggleLock(); });
     });
 
     function refresh() {
@@ -1579,7 +1713,8 @@
         toggleDetail: function () { cad.detail = !cad.detail; refresh(); return cad.detail; },
         togglePause: function () { cad.paused = !cad.paused; return cad.paused; },
         burst: function () { cad.mul = 12; setTimeout(function () { cad.mul = 1; }, 2200); },
-        regen: function () { vt = 0; refresh(); }
+        regen: function () { vt = 0; refresh(); },
+        setTheme: function (on) { scenes.forEach(function (s) { s.setTheme(on); }); refresh(); }
     };
 
     if (reduce) {
@@ -1600,7 +1735,7 @@
                 lastDraw = t;
                 scenes.forEach(function (s) {
                     if (!s.visible) return;
-                    if ((s.view > 0 || cad.paused) && !s.dirty) return;
+                    if ((s.view > 0 || cad.paused || s.locked) && !s.dirty) return;
                     s.draw(vt);
                 });
             }
@@ -1717,49 +1852,12 @@
         return el && el.closest ? el.closest('a, button') : null;
     }
 
-    document.addEventListener('click', function (ev) {
-        // while LINE or CIRCLE is active, clicks on the page place points instead
-        if (tool && ev.isTrusted && ev.detail !== 0 && ev.target.closest && ev.target.closest('#screen')) {
-            ev.preventDefault();
-            ev.stopImmediatePropagation();
-            pick(ev.clientX, ev.clientY);
-            return;
-        }
-        if (!warpOn || !ev.isTrusted || ev.detail === 0) return; // keyboard clicks are not remapped
-        var hit = targetAt(ev.clientX, ev.clientY);
-        var raw = ev.target.closest ? ev.target.closest('a, button') : null;
-        if (hit === raw) return;
-        ev.preventDefault();
-        ev.stopImmediatePropagation();
-        if (hit) hit.click();
-    }, true);
-
     var hot = null, moveQueued = false, lastEv = null;
-    var coords = document.getElementById('coords');
+    var coordsBtn = document.getElementById('coords');
     function pad(n) { return String(Math.max(0, Math.round(n))).padStart(4, '0'); }
-    document.addEventListener('mousemove', function (e) {
-        var mp = warpOn ? warpPoint(e.clientX, e.clientY) : [e.clientX, e.clientY];
-        coords.textContent = 'X ' + pad(mp[0]) + '  Y ' + pad(mp[1] + screen.scrollTop);
-        if (crt.classList.contains('xhair')) moveCross(mp);
-        if (tool && first) rubber(e.clientX, e.clientY);
-        if (!warpOn) { if (hot) { hot.classList.remove('hot'); hot = null; } return; }
-        lastEv = e;
-        if (moveQueued) return;
-        moveQueued = true;
-        requestAnimationFrame(function () {
-            moveQueued = false;
-            var t = targetAt(lastEv.clientX, lastEv.clientY);
-            if (t !== hot) {
-                if (hot) hot.classList.remove('hot');
-                if (t) t.classList.add('hot');
-                hot = t;
-            }
-        });
-    });
-
 
     /* ====================================================================
-       Command line, drawing tools and the Mode dropdown
+       Command line, drawing tools, menus and the CAD easter eggs
        ==================================================================== */
     var html = document.documentElement;
     var cmdInput = document.getElementById('cmd-input');
@@ -1768,11 +1866,22 @@
     var drawSvg = document.getElementById('draw');
     var xhH = document.getElementById('xh-h'), xhV = document.getElementById('xh-v'), xhBox = document.getElementById('xh-box');
     var stGrid = document.getElementById('st-grid'), stOrtho = document.getElementById('st-ortho');
-    var modeBtn = document.getElementById('mode-btn'), modeList = document.getElementById('mode-list');
+    var stSnap = document.getElementById('st-snap'), stOsnap = document.getElementById('st-osnap'), stLwt = document.getElementById('st-lwt');
+    var ctxMenu = document.getElementById('ctx'), sbCount = document.getElementById('sb-count'), sbPos = document.getElementById('sb-pos');
+    var clockBtn = document.getElementById('clock');
     var SVGNS = 'http://www.w3.org/2000/svg';
     var prefersReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var tool = null, first = null, ortho = false, lastPoint = null, entities = [];
+    var tool = null, first = null, ortho = false, snapOn = false, osnapOn = false, lastPoint = null;
+    var entities = [], undoStack = [], selected = [];
     var history = [], histPos = 0, logLines = [], logTimer = null;
+    var drawColor = '', dashed = false, coordMode = 0, clock24 = false, blueprint = false;
+    var sessionStart = Date.now();
+    var COLORS = { red: '#ff5a5a', yellow: '#ffe14d', green: '#3dff8a', cyan: '#4de1ff', blue: '#6c8cff', magenta: '#ff6bff', white: '#ffffff' };
+    var COLOR_ORDER = ['red', 'yellow', 'green', 'cyan', 'blue', 'magenta', 'white'];
+    var TOOL_PROMPTS = {
+        line: 'LINE  Specify first point:', circle: 'CIRCLE  Specify center point:', rect: 'RECTANG  Specify first corner:',
+        dim: 'DIMLINEAR  Specify first point:', dist: 'DIST  Specify first point:', point: 'POINT  Specify a point:', text: 'TEXT  Specify start point:'
+    };
 
     function inXP() { return html.classList.contains('in-xp'); }
     function svgEl(name, attrs) {
@@ -1780,14 +1889,19 @@
         for (k in attrs) el.setAttribute(k, attrs[k]);
         return el;
     }
-    var rbLine = svgEl('line', { 'class': 'rb' }), rbCircle = svgEl('circle', { 'class': 'rb' });
-    rbLine.style.display = 'none'; rbCircle.style.display = 'none';
-    drawSvg.appendChild(rbLine); drawSvg.appendChild(rbCircle);
+    var rbLine = svgEl('line', { 'class': 'rb' }), rbCircle = svgEl('circle', { 'class': 'rb' }), rbRect = svgEl('rect', { 'class': 'rb' });
+    var osMark = svgEl('rect', { id: 'osnap-mark', width: 10, height: 10 });
+    [rbLine, rbCircle, rbRect, osMark].forEach(function (el) { el.style.display = 'none'; drawSvg.appendChild(el); });
+
+    function allWindows() {
+        return [].slice.call(document.querySelectorAll('#screen .window')).filter(function (w) { return !w.classList.contains('erased'); });
+    }
+    function winName(w) { return w.querySelector('.titlebar').textContent.trim(); }
 
     /* --- message log above the command line --- */
     function renderLog() {
         cmdLog.textContent = '';
-        logLines.slice(-9).forEach(function (l) {
+        logLines.slice(-10).forEach(function (l) {
             var d = document.createElement('div');
             d.textContent = l.t;
             if (l.c) d.className = l.c;
@@ -1801,7 +1915,7 @@
     }
     function echo(text, cls) {
         logLines.push({ t: text, c: cls || '' });
-        if (logLines.length > 20) logLines.shift();
+        if (logLines.length > 30) logLines.shift();
         renderLog();
         showLog(false);
     }
@@ -1812,17 +1926,61 @@
     function setPrompt(t) { cmdPrompt.textContent = t || 'Command:'; }
 
     /* --- the page behind the glass is drawn on in page coordinates --- */
-    function contentPt(cx, cy) {
-        var p = warpOn ? warpPoint(cx, cy) : [cx, cy], r = screen.getBoundingClientRect();
-        return [p[0] - r.left + screen.scrollLeft, p[1] - r.top + screen.scrollTop];
+    function toContent(vx, vy) {
+        var r = screen.getBoundingClientRect();
+        return [vx - r.left + screen.scrollLeft, vy - r.top + screen.scrollTop];
+    }
+    function rawPt(cx, cy) {
+        var p = warpOn ? warpPoint(cx, cy) : [cx, cy];
+        return toContent(p[0], p[1]);
+    }
+    function osnapTarget(p) {
+        var best = null, bd = 14;
+        function test(x, y) { var d = Math.hypot(x - p[0], y - p[1]); if (d < bd) { bd = d; best = [x, y]; } }
+        allWindows().forEach(function (w) {
+            var r = w.getBoundingClientRect(), a = toContent(r.left, r.top), b = toContent(r.right, r.bottom);
+            var mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
+            [a[0], mx, b[0]].forEach(function (x) {
+                [a[1], my, b[1]].forEach(function (y) { if (!(x === mx && y === my)) test(x, y); });
+            });
+        });
+        entities.forEach(function (el) {
+            if (el.tagName === 'line') { test(+el.getAttribute('x1'), +el.getAttribute('y1')); test(+el.getAttribute('x2'), +el.getAttribute('y2')); }
+            else if (el.tagName === 'circle') test(+el.getAttribute('cx'), +el.getAttribute('cy'));
+            else if (el.tagName === 'rect') {
+                var x = +el.getAttribute('x'), y = +el.getAttribute('y'), w = +el.getAttribute('width'), h = +el.getAttribute('height');
+                test(x, y); test(x + w, y); test(x, y + h); test(x + w, y + h);
+            }
+        });
+        return best;
+    }
+    function snapPt(p) {
+        var o = osnapOn ? osnapTarget(p) : null;
+        if (o) return o;
+        if (snapOn) return [Math.round(p[0] / 20) * 20, Math.round(p[1] / 20) * 20];
+        return p;
+    }
+    function updateSnapMark(p) {
+        var o = osnapOn ? osnapTarget(p) : null;
+        if (!o) { osMark.style.display = 'none'; return; }
+        osMark.setAttribute('x', o[0] - 5); osMark.setAttribute('y', o[1] - 5);
+        osMark.style.display = '';
     }
     function constrain(a, b) {
         if (!ortho) return b;
         return Math.abs(b[0] - a[0]) >= Math.abs(b[1] - a[1]) ? [b[0], a[1]] : [a[0], b[1]];
     }
     function dist(a, b) { return Math.hypot(b[0] - a[0], b[1] - a[1]); }
-    function addEntity(el) { drawSvg.insertBefore(el, rbLine); entities.push(el); }
-
+    function tint(el) {
+        if (drawColor) el.style.setProperty('--draw', drawColor);
+        if (dashed) el.setAttribute('class', 'dash');
+    }
+    function addEntity(el) {
+        tint(el);
+        drawSvg.insertBefore(el, rbLine);
+        entities.push(el);
+        undoStack.push({ t: 'ent', els: [el] });
+    }
     function syncDraw() {
         var c = document.querySelector('.desktop-container');
         drawSvg.style.height = (c.offsetTop + c.offsetHeight + 70) + 'px';
@@ -1831,46 +1989,83 @@
     if ('ResizeObserver' in window) new ResizeObserver(syncDraw).observe(document.querySelector('.desktop-container'));
     window.addEventListener('resize', syncDraw);
 
+    /* --- drawing tools --- */
     function startTool(name) {
         endTool();
         tool = name; first = null;
-        setPrompt(name === 'line' ? 'LINE  Specify first point:' : 'CIRCLE  Specify center point:');
-        echo(name === 'line' ? 'LINE  Click the page to place points. Enter, right-click or Esc to finish.'
-                             : 'CIRCLE  Click the center, then click to set the radius.');
+        setPrompt(TOOL_PROMPTS[name]);
+        echo(TOOL_PROMPTS[name] + '   [click the page, Esc cancels]');
     }
     function endTool(msg) {
         if (!tool) return;
         tool = null; first = null;
-        rbLine.style.display = 'none'; rbCircle.style.display = 'none';
+        [rbLine, rbCircle, rbRect].forEach(function (el) { el.style.display = 'none'; });
         setPrompt();
         if (msg) echo(msg);
     }
+    function addDim(a, b) {
+        var g = svgEl('g', {}), dx = b[0] - a[0], dy = b[1] - a[1], d = Math.hypot(dx, dy) || 1, nx = -dy / d * 7, ny = dx / d * 7;
+        g.appendChild(svgEl('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1] }));
+        g.appendChild(svgEl('line', { x1: a[0] - nx, y1: a[1] - ny, x2: a[0] + nx, y2: a[1] + ny }));
+        g.appendChild(svgEl('line', { x1: b[0] - nx, y1: b[1] - ny, x2: b[0] + nx, y2: b[1] + ny }));
+        var t = svgEl('text', { x: (a[0] + b[0]) / 2, y: (a[1] + b[1]) / 2 - 8, 'text-anchor': 'middle' });
+        t.textContent = d.toFixed(2);
+        g.appendChild(t);
+        addEntity(g);
+        echo('Dimension text = ' + d.toFixed(2));
+    }
+    function addPoint(p) {
+        var g = svgEl('g', {});
+        g.appendChild(svgEl('line', { x1: p[0] - 5, y1: p[1], x2: p[0] + 5, y2: p[1] }));
+        g.appendChild(svgEl('line', { x1: p[0], y1: p[1] - 5, x2: p[0], y2: p[1] + 5 }));
+        addEntity(g);
+    }
+    function reportDist(a, b) {
+        var ang = Math.atan2(a[1] - b[1], b[0] - a[0]) * 180 / Math.PI;
+        if (ang < 0) ang += 360;
+        echo('Distance = ' + dist(a, b).toFixed(2) + ',  Angle in XY plane = ' + ang.toFixed(1) +
+             ',  Delta X = ' + (b[0] - a[0]).toFixed(2) + ',  Delta Y = ' + (a[1] - b[1]).toFixed(2));
+    }
     function pick(cx, cy) {
-        var p = contentPt(cx, cy);
+        var p = snapPt(rawPt(cx, cy)), q;
         lastPoint = p;
         if (tool === 'line') {
-            if (!first) {
-                first = p;
-                setPrompt('LINE  Specify next point:');
-            } else {
-                var q = constrain(first, p);
+            if (!first) { first = p; setPrompt('LINE  Specify next point:'); }
+            else {
+                q = constrain(first, p);
                 addEntity(svgEl('line', { x1: first[0], y1: first[1], x2: q[0], y2: q[1] }));
                 first = q;
             }
         } else if (tool === 'circle') {
+            if (!first) { first = p; setPrompt('CIRCLE  Specify radius:'); }
+            else { addEntity(svgEl('circle', { cx: first[0], cy: first[1], r: dist(first, p) })); endTool('Circle created.'); }
+        } else if (tool === 'rect') {
+            if (!first) { first = p; setPrompt('RECTANG  Specify other corner:'); }
+            else {
+                addEntity(svgEl('rect', { x: Math.min(first[0], p[0]), y: Math.min(first[1], p[1]), width: Math.abs(p[0] - first[0]), height: Math.abs(p[1] - first[1]) }));
+                endTool('Rectangle created.');
+            }
+        } else if (tool === 'dim' || tool === 'dist') {
+            if (!first) { first = p; setPrompt(tool === 'dim' ? 'DIMLINEAR  Specify second point:' : 'DIST  Specify second point:'); }
+            else {
+                q = constrain(first, p);
+                if (tool === 'dim') addDim(first, q); else reportDist(first, q);
+                endTool();
+            }
+        } else if (tool === 'point') {
+            addPoint(p); endTool('Point created.');
+        } else if (tool === 'text') {
             if (!first) {
-                first = p;
-                setPrompt('CIRCLE  Specify radius:');
-            } else {
-                addEntity(svgEl('circle', { cx: first[0], cy: first[1], r: dist(first, p) }));
-                endTool('Circle created.');
+                first = p; setPrompt('TEXT  Enter text:');
+                echo('TEXT  Type the text on the command line and press Enter.');
+                cmdInput.focus();
             }
         }
     }
     function rubber(cx, cy) {
-        var p = contentPt(cx, cy);
-        if (tool === 'line') {
-            var q = constrain(first, p);
+        var p = snapPt(rawPt(cx, cy)), q;
+        if (tool === 'line' || tool === 'dim' || tool === 'dist') {
+            q = constrain(first, p);
             rbLine.setAttribute('x1', first[0]); rbLine.setAttribute('y1', first[1]);
             rbLine.setAttribute('x2', q[0]); rbLine.setAttribute('y2', q[1]);
             rbLine.style.display = '';
@@ -1878,56 +2073,209 @@
             rbCircle.setAttribute('cx', first[0]); rbCircle.setAttribute('cy', first[1]);
             rbCircle.setAttribute('r', dist(first, p));
             rbCircle.style.display = '';
+        } else if (tool === 'rect') {
+            rbRect.setAttribute('x', Math.min(first[0], p[0])); rbRect.setAttribute('y', Math.min(first[1], p[1]));
+            rbRect.setAttribute('width', Math.abs(p[0] - first[0])); rbRect.setAttribute('height', Math.abs(p[1] - first[1]));
+            rbRect.style.display = '';
         }
     }
 
+    /* --- selection, erase and undo (the windows are the "objects") --- */
+    function clearSel() {
+        selected.forEach(function (w) { w.classList.remove('selected'); });
+        selected = [];
+    }
+    function selectWin(w, add) {
+        if (!add) clearSel();
+        var i = selected.indexOf(w);
+        if (i >= 0) { selected.splice(i, 1); w.classList.remove('selected'); }
+        else { selected.push(w); w.classList.add('selected'); }
+    }
+    function selectAll() {
+        clearSel();
+        allWindows().forEach(function (w) { selected.push(w); w.classList.add('selected'); });
+        echo(selected.length + ' found.');
+    }
+    function eraseSelected() {
+        if (!selected.length) return false;
+        var els = selected.slice();
+        els.forEach(function (w) { w.classList.add('erased'); });
+        clearSel();
+        undoStack.push({ t: 'win', els: els });
+        echo(els.length + ' object(s) erased.  (OOPS or U brings them back.)');
+        return true;
+    }
+    function eraseEntities() {
+        var els = entities.slice();
+        els.forEach(function (el) { el.remove(); });
+        entities = [];
+        if (els.length) undoStack.push({ t: 'ent', els: els });
+        echo(els.length ? els.length + ' object(s) erased.' : 'Nothing to erase.');
+    }
+    function restoreWindows() {
+        for (var i = undoStack.length - 1; i >= 0; i--) {
+            if (undoStack[i].t === 'win') {
+                var a = undoStack.splice(i, 1)[0];
+                a.els.forEach(function (w) { w.classList.remove('erased'); });
+                echo(a.els.length + ' object(s) restored.');
+                return true;
+            }
+        }
+        return false;
+    }
+    function undo() {
+        var a = undoStack.pop();
+        if (!a) { echo('Nothing to undo. (Your hardware problems remain.)'); return; }
+        if (a.t === 'ent') {
+            var gone = a.els.every(function (el) { return !el.parentNode; });
+            a.els.forEach(function (el) {
+                if (gone) { drawSvg.insertBefore(el, rbLine); entities.push(el); }
+                else { el.remove(); entities = entities.filter(function (e) { return e !== el; }); }
+            });
+            echo(gone ? 'Objects restored.' : 'Last object removed.');
+        } else if (a.t === 'win') {
+            a.els.forEach(function (w) { w.classList.remove('erased'); });
+            echo(a.els.length + ' object(s) restored.');
+        }
+    }
+    function findWins(arg) {
+        var wins = [].slice.call(document.querySelectorAll('.hardware-grid .window'));
+        if (!arg || arg === 'all') return wins;
+        return wins.filter(function (w) {
+            return winName(w).toLowerCase().indexOf(arg) >= 0 || w.querySelector('h3').textContent.toLowerCase().indexOf(arg) >= 0;
+        });
+    }
+    function toggleFreeze(w, force) {
+        var f = force === undefined ? !w.classList.contains('frozen') : force;
+        w.classList.toggle('frozen', f);
+        return f;
+    }
+    function scrollToWin(w) {
+        var r = w.getBoundingClientRect();
+        screen.scrollTo({ top: screen.scrollTop + r.top - 80, behavior: prefersReduce ? 'auto' : 'smooth' });
+    }
+
+    [].forEach.call(document.querySelectorAll('.swatch'), function (sw) {
+        sw.addEventListener('click', function () {
+            var w = sw.closest('.window'), f = toggleFreeze(w);
+            echo('Layer ' + winName(w) + (f ? ' frozen.' : ' thawed.'));
+        });
+    });
+
     /* --- toggles --- */
+    function setPressed(btn, on) { btn.setAttribute('aria-pressed', on ? 'true' : 'false'); }
     function toggleGrid() {
         var on = crt.classList.contains('nogrid');   // currently hidden -> turning on
         crt.classList.toggle('nogrid', !on);
-        stGrid.setAttribute('aria-pressed', on ? 'true' : 'false');
+        setPressed(stGrid, on);
         echo('GRID ' + (on ? 'on' : 'off') + '.');
     }
-    function setOrtho(on) {
-        ortho = on;
-        stOrtho.setAttribute('aria-pressed', on ? 'true' : 'false');
-        echo('ORTHO ' + (on ? 'on' : 'off') + '.');
+    function setOrtho(on) { ortho = on; setPressed(stOrtho, on); echo('ORTHO ' + (on ? 'on' : 'off') + '.'); }
+    function setSnap(on) { snapOn = on; setPressed(stSnap, on); echo('SNAP ' + (on ? 'on (20 px grid).' : 'off.')); }
+    function setOsnap(on) {
+        osnapOn = on; setPressed(stOsnap, on);
+        if (!on) osMark.style.display = 'none';
+        echo('OSNAP ' + (on ? 'on (corners, midpoints, endpoints).' : 'off.'));
     }
-    function toggleCross() {
-        var on = crt.classList.toggle('xhair');
-        echo('CROSSHAIR ' + (on ? 'on' : 'off') + '.');
-    }
+    function toggleLwt() { var on = crt.classList.toggle('lwt'); setPressed(stLwt, on); echo('LWT ' + (on ? 'on (heavy lines).' : 'off.')); }
+    function toggleCross() { echo('CROSSHAIR ' + (crt.classList.toggle('xhair') ? 'on.' : 'off.')); }
     function moveCross(p) {
         xhH.style.transform = 'translateY(' + p[1] + 'px)';
         xhV.style.transform = 'translateX(' + p[0] + 'px)';
         xhBox.style.transform = 'translate(' + p[0] + 'px,' + p[1] + 'px)';
     }
+    function setBlueprint(on) {
+        blueprint = on;
+        crt.classList.toggle('blueprint', on);
+        window.workbenchCad.setTheme(on);
+        echo('BLUEPRINT ' + (on ? 'on.' : 'off.'));
+    }
+    function cycleCoords() {
+        coordMode = (coordMode + 1) % 3;
+        coordsBtn.classList.toggle('off', coordMode === 2);
+        echo('COORDS  ' + ['Absolute', 'Polar (distance < angle from the last point)', 'Off'][coordMode] + '.');
+    }
+    function updateCoords(e) {
+        if (coordMode === 2) return;
+        var cp = rawPt(e.clientX, e.clientY);
+        if (coordMode === 0) coordsBtn.textContent = 'X ' + pad(cp[0]) + '  Y ' + pad(cp[1]);
+        else {
+            var o = lastPoint || [0, 0], a = Math.atan2(o[1] - cp[1], cp[0] - o[0]) * 180 / Math.PI;
+            if (a < 0) a += 360;
+            coordsBtn.textContent = 'D ' + pad(Math.hypot(cp[0] - o[0], cp[1] - o[1])) + '  A ' + String(Math.round(a) % 360).padStart(3, '0') + '\u00B0';
+        }
+    }
+    function updatePos(x) {
+        sbPos.textContent = 'Ln ' + (Math.floor(screen.scrollTop / 19) + 1) + ', Col ' + (Math.floor((x || 0) / 8) + 1);
+    }
+    var lastX = 0;
+    screen.addEventListener('scroll', function () { updatePos(lastX); });
+
     stGrid.addEventListener('click', toggleGrid);
     stOrtho.addEventListener('click', function () { setOrtho(!ortho); });
+    stSnap.addEventListener('click', function () { setSnap(!snapOn); });
+    stOsnap.addEventListener('click', function () { setOsnap(!osnapOn); });
+    stLwt.addEventListener('click', toggleLwt);
+    coordsBtn.addEventListener('click', cycleCoords);
+    sbCount.addEventListener('click', function () { run('list'); });
+    sbPos.addEventListener('click', function () { run('zoom'); });
+    clockBtn.addEventListener('click', function () {
+        clock24 = !clock24;
+        updateClock();
+        echo('Clock: ' + (clock24 ? '24-hour.' : '12-hour.'));
+    });
+    [].forEach.call(document.querySelectorAll('.readout'), function () {});
 
     /* --- commands --- */
     var COMMANDS = {};
     function def(names, fn) { names.split(' ').forEach(function (n) { COMMANDS[n] = fn; }); }
+    function colorName() { return drawColor ? COLOR_ORDER.filter(function (n) { return COLORS[n] === drawColor; })[0] : 'BYLAYER'; }
 
     def('help ?', function () {
-        echo('LINE  CIRCLE  ERASE  UNDO  ZOOM  VIEW [persp|top|front|right]  ORBIT  LAYER  REGEN');
-        echo('GRID (F7)  ORTHO (F8)  CROSSHAIR  CRT  LIST  ID  SAVE (Ctrl+S)  ABOUT  HISTORY (F2)  XP');
-        echo('Type anywhere to start a command. Esc cancels. Click a viewport label to change its view.');
+        echo('DRAW    LINE  CIRCLE  RECT  DIM  TEXT  POINT  DIST  HATCH  COLOR  LINETYPE');
+        echo('EDIT    ERASE  UNDO  OOPS  SELECT  FREEZE  THAW  OPEN  NEW  CLS');
+        echo('VIEW    ZOOM  VIEW [persp|top|front|right]  ORBIT  LAYER  REGEN  BLUEPRINT  EXPLODE');
+        echo('MODES   GRID F7  ORTHO F8  SNAP F9  OSNAP F3  LWT  CROSSHAIR  COORDS F6  CRT');
+        echo('INFO    LIST  STATUS  TIME  SAVE Ctrl+S  COPY  ABOUT  HISTORY F2  XP');
+        echo('Right-click for a menu. Click a window to select it, double-click a title bar to roll it up. Esc cancels.');
     });
     def('about ver version', function () {
         echo('Workbench CAD  [Version 1.0]   6 drawings loaded, 0 errors.');
         echo('Illustrative wireframes, dimensions approximate. Made with Claude while experimenting with its features.');
     });
     def('list ls dir', function () {
-        var names = [].map.call(document.querySelectorAll('.hardware-grid .titlebar'), function (t) { return t.textContent.trim(); });
+        var names = findWins('all').map(winName);
         echo(names.join('   '));
         echo(names.length + ' drawing(s).');
     });
+    def('status', function () {
+        echo('Drawings: ' + findWins('all').length + '   Erased: ' + document.querySelectorAll('.window.erased').length + '   Selected: ' + selected.length + '   Objects drawn: ' + entities.length);
+        echo('GRID ' + (crt.classList.contains('nogrid') ? 'off' : 'on') + '   SNAP ' + (snapOn ? 'on' : 'off') + '   ORTHO ' + (ortho ? 'on' : 'off') +
+             '   OSNAP ' + (osnapOn ? 'on' : 'off') + '   LWT ' + (crt.classList.contains('lwt') ? 'on' : 'off') + '   BLUEPRINT ' + (blueprint ? 'on' : 'off'));
+        echo('Color: ' + colorName().toUpperCase() + '   Linetype: ' + (dashed ? 'DASHED' : 'CONTINUOUS'));
+    });
+    def('time date', function () {
+        var s = Math.floor((Date.now() - sessionStart) / 1000);
+        echo('Current time: ' + new Date().toLocaleString());
+        echo('Time in this drawing session: ' + Math.floor(s / 60) + ' min ' + (s % 60) + ' sec.');
+    });
     def('save qsave export plot', function () { window.exportWorkbenchLog(); });
+    def('copy copylog', function () {
+        var text = logLines.map(function (l) { return l.t; }).join('\n');
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function () { echo('Command history copied to the clipboard.'); },
+                                                      function () { echo('Copy failed: the browser blocked clipboard access.', 'warn'); });
+        } else echo('Copy failed: clipboard not available here.', 'warn');
+    });
     def('grid', toggleGrid);
     def('ortho', function () { setOrtho(!ortho); });
+    def('snap', function () { setSnap(!snapOn); });
+    def('osnap', function () { setOsnap(!osnapOn); });
+    def('lwt', toggleLwt);
+    def('coords', cycleCoords);
     def('crosshair cursor', toggleCross);
     def('crt warp', function () { setWarp(!warpOn, true); echo('CRT warp ' + (warpOn ? 'on' : 'off') + '.'); });
+    def('blueprint', function () { setBlueprint(!blueprint); });
     def('orbit 3dorbit', function () {
         echo(window.workbenchCad.togglePause() ? 'ORBIT  Auto-rotate paused.' : 'ORBIT  Auto-rotate resumed.');
     });
@@ -1939,30 +2287,97 @@
         else if (window.workbenchCad.setView(arg)) echo('View set: ' + arg.toUpperCase() + '.');
         else echo('Options: PERSP, TOP, FRONT, RIGHT.', 'warn');
     });
-    def('regen', function () { window.workbenchCad.regen(); echo('Regenerating model.'); });
+    def('regen redraw', function () { window.workbenchCad.regen(); echo('Regenerating model.'); });
     def('zoom z', function () {
         screen.scrollTo({ top: 0, behavior: prefersReduce ? 'auto' : 'smooth' });
         echo('Zoom Extents.  Regenerating model.');
     });
     def('line l', function () { startTool('line'); });
     def('circle c', function () { startTool('circle'); });
-    def('erase e clean', function () {
-        var n = entities.length;
-        entities.forEach(function (el) { el.remove(); });
-        entities = [];
-        echo(n ? n + ' object(s) erased.' : 'Nothing to erase.');
+    def('rect rec rectang', function () { startTool('rect'); });
+    def('dim dimlinear', function () { startTool('dim'); });
+    def('dist di', function () { startTool('dist'); });
+    def('point po', function () { startTool('point'); });
+    def('text dtext', function () { startTool('text'); });
+    def('erase e', function () { if (!eraseSelected()) eraseEntities(); });
+    def('clean', eraseEntities);
+    def('oops', function () { if (!restoreWindows()) echo('Nothing to restore.'); });
+    def('undo u', undo);
+    def('select sel', function (arg) {
+        if (arg === 'all') selectAll();
+        else if (arg === 'none') { clearSel(); echo('Selection cleared.'); }
+        else if (arg) {
+            var w = findWins(arg).filter(function (x) { return !x.classList.contains('erased'); });
+            clearSel();
+            w.forEach(function (x) { selected.push(x); x.classList.add('selected'); });
+            echo(w.length + ' found.');
+        } else echo('Click a window to select it, or type SELECT ALL.');
     });
-    def('undo u', function () {
-        var el = entities.pop();
-        if (el) { el.remove(); echo('Last object removed.'); }
-        else echo('Nothing to undo. (Your hardware problems remain.)');
+    def('freeze', function (arg) {
+        var w = findWins(arg);
+        w.forEach(function (x) { toggleFreeze(x, true); });
+        echo(w.length ? w.length + ' layer(s) frozen.' : 'No layer matches "' + arg + '".', w.length ? '' : 'warn');
+    });
+    def('thaw', function (arg) {
+        var w = findWins(arg);
+        w.forEach(function (x) { toggleFreeze(x, false); });
+        echo(w.length ? w.length + ' layer(s) thawed.' : 'No layer matches "' + arg + '".', w.length ? '' : 'warn');
+    });
+    def('open', function (arg) {
+        var w = arg ? findWins(arg) : [];
+        if (!w.length) { echo(arg ? 'No drawing matches "' + arg + '".  Try LIST.' : 'OPEN  Type part of a file name, for example OPEN P14S.', 'warn'); return; }
+        w[0].classList.remove('erased', 'collapsed');
+        clearSel(); selected.push(w[0]); w[0].classList.add('selected');
+        scrollToWin(w[0]);
+        echo('Opened ' + winName(w[0]) + '.');
+    });
+    def('new', function () {
+        endTool();
+        entities.forEach(function (el) { el.remove(); });
+        entities = []; undoStack = []; clearSel();
+        [].forEach.call(document.querySelectorAll('.window'), function (w) { w.classList.remove('erased', 'frozen', 'collapsed'); });
+        drawColor = ''; dashed = false;
+        window.workbenchCad.setView('persp');
+        echo('NEW  Drawing reset.');
+    });
+    def('color colour', function (arg) {
+        if (arg === 'bylayer' || arg === 'default') { drawColor = ''; echo('Color: BYLAYER.'); return; }
+        var n = arg;
+        if (!arg || arg === 'next') {
+            var i = drawColor ? COLOR_ORDER.indexOf(colorName()) : -1;
+            n = COLOR_ORDER[(i + 1) % COLOR_ORDER.length];
+        }
+        if (!COLORS[n]) { echo('Colors: ' + COLOR_ORDER.join(', ').toUpperCase() + ', BYLAYER.', 'warn'); return; }
+        drawColor = COLORS[n];
+        echo('Color: ' + n.toUpperCase() + '.');
+    });
+    def('linetype lt', function (arg) {
+        dashed = arg === 'dashed' ? true : arg === 'continuous' ? false : !dashed;
+        echo('Linetype: ' + (dashed ? 'DASHED.' : 'CONTINUOUS.'));
+    });
+    def('hatch ha', function () {
+        for (var i = entities.length - 1; i >= 0; i--) {
+            var t = entities[i].tagName;
+            if (t === 'rect' || t === 'circle') {
+                entities[i].setAttribute('fill', 'url(#hatch)');
+                entities[i].style.fill = 'url(#hatch)';
+                echo('Hatch applied.');
+                return;
+            }
+        }
+        echo('HATCH  Nothing to hatch. Draw a RECT or CIRCLE first.', 'warn');
     });
     def('id', function () {
         if (lastPoint) echo('X = ' + lastPoint[0].toFixed(2) + '   Y = ' + lastPoint[1].toFixed(2));
         else echo('No point picked yet. Try LINE first.');
     });
-    def('history text', function () { renderLog(); showLog(true); });
+    def('history textscr', function () { renderLog(); showLog(true); });
+    def('cls', function () { logLines = []; renderLog(); cmdLog.hidden = true; });
     def('xp', function () { echo('Starting Windows XP...'); window.workbenchMode.set('xp'); });
+    def('explode', function () {
+        window.workbenchCad.burst();
+        echo('EXPLODE  6 objects exploded. They will reassemble shortly.');
+    });
     // not listed in HELP
     def('coffee', function () { echo('Error 418: this CAD package is a teapot. Brewing is not supported.'); });
     def('sudo', function () { echo('Permission granted. All wireframes are now unlimited.'); });
@@ -1972,13 +2387,32 @@
     def('quit exit close', function () { echo('You cannot leave the Workbench. Try ZOOM instead.'); });
     def('purge', function () { echo('0 unreferenced items purged. All 6 drawings are still in use.'); });
     def('audit', function () { echo('Auditing database...  0 errors, 1 warning:  macbook-air.igs  Wi-Fi driver unresolved.', 'warn'); });
-    def('explode', function () {
-        window.workbenchCad.burst();
-        echo('EXPLODE  6 objects exploded. They will reassemble shortly.');
+    def('rosebud', function () { echo('Money added: $0.00. This is a CAD package.'); });
+    def('ping', function () { echo('Reply from localhost: time<1ms. The hardware is another story.'); });
+    def('beep', function () {
+        try {
+            var AC = window.AudioContext || window.webkitAudioContext, ac = new AC(), o = ac.createOscillator(), g = ac.createGain();
+            o.type = 'square'; o.frequency.value = 880; g.gain.value = 0.04;
+            o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.12);
+            echo('Beep.');
+        } catch (err) { echo('Beep. (No audio available.)'); }
     });
+    function konami() {
+        window.workbenchCad.burst();
+        echo('CHEAT CODE ACCEPTED: unlimited UNDO enabled. (Not really.)', 'warn');
+    }
 
     function run(raw) {
         var line = raw.trim();
+        if (tool === 'text' && first) {
+            if (line) {
+                var t = svgEl('text', { x: first[0], y: first[1] });
+                t.textContent = raw;
+                addEntity(t);
+                endTool('Text created.');
+            } else endTool('*Cancel*');
+            return;
+        }
         if (!line) {
             if (tool) endTool('Command ended.');
             else if (history.length) run(history[history.length - 1]);   // Enter repeats the last command
@@ -2013,52 +2447,202 @@
         }
     });
 
-    /* typing anywhere starts a command, like the real thing; function keys and shortcuts */
+    /* --- menus: File / Edit / View / Draw / Modify, plus the Mode menu --- */
+    var MENUS = [
+        ['File', [['Save log', 'Ctrl+S', 'save'], ['Plot...', '', 'plot'], ['New', '', 'new'], '-', ['Audit', '', 'audit'], ['Purge', '', 'purge'], '-', ['Windows XP mode', '', 'xp'], ['Exit', '', 'quit']]],
+        ['Edit', [['Undo', 'Ctrl+Z', 'undo'], ['Oops', '', 'oops'], '-', ['Select all', 'Ctrl+A', 'select all'], ['Clear selection', 'Esc', 'select none'], '-', ['Copy history', '', 'copy']]],
+        ['View', [['Zoom extents', '', 'zoom'], ['Perspective', '', 'view persp'], ['Top', '', 'view top'], ['Front', '', 'view front'], ['Right', '', 'view right'], '-',
+                  ['Grid', 'F7', 'grid'], ['Crosshair', '', 'crosshair'], ['Blueprint', '', 'blueprint'], ['Detail layer', '', 'layer'], ['Pause orbit', '', 'orbit'], '-', ['Command history', 'F2', 'history']]],
+        ['Draw', [['Line', 'L', 'line'], ['Circle', 'C', 'circle'], ['Rectangle', '', 'rect'], ['Dimension', '', 'dim'], ['Text', '', 'text'], ['Point', '', 'point'], ['Hatch', '', 'hatch'], '-', ['Color: next', '', 'color'], ['Linetype: toggle', '', 'linetype']]],
+        ['Modify', [['Erase', 'E', 'erase'], ['Explode', '', 'explode'], ['Regen', '', 'regen'], ['Freeze all', '', 'freeze all'], ['Thaw all', '', 'thaw all'], '-', ['Measure distance', '', 'dist'], ['Status', '', 'status']]]
+    ];
+    function menuItem(it) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('role', 'menuitem');
+        b.setAttribute('data-cmd', it[2]);
+        b.innerHTML = '<span></span><span class="k"></span>';
+        b.firstChild.textContent = it[0];
+        b.lastChild.textContent = it[1];
+        return b;
+    }
+    (function buildMenus() {
+        var bar = document.querySelector('.menubar'), before = document.getElementById('mode-menu');
+        MENUS.forEach(function (m) {
+            var wrap = document.createElement('div'), b = document.createElement('button'), list = document.createElement('div');
+            wrap.className = 'menu-drop menu-collapsible';
+            b.type = 'button'; b.className = 'menu-btn menu-plain'; b.textContent = m[0];
+            b.setAttribute('aria-haspopup', 'menu'); b.setAttribute('aria-expanded', 'false');
+            list.className = 'menu-list'; list.setAttribute('role', 'menu'); list.hidden = true;
+            m[1].forEach(function (it) {
+                if (it === '-') { var s = document.createElement('div'); s.className = 'menu-sep'; list.appendChild(s); }
+                else list.appendChild(menuItem(it));
+            });
+            wrap.appendChild(b); wrap.appendChild(list);
+            bar.insertBefore(wrap, before);
+        });
+    })();
+
+    function anyMenuOpen() { return [].some.call(document.querySelectorAll('.menu-list'), function (l) { return !l.hidden; }); }
+    function closeMenus() {
+        [].forEach.call(document.querySelectorAll('.menu-list'), function (l) { l.hidden = true; });
+        [].forEach.call(document.querySelectorAll('.menu-btn'), function (b) { b.setAttribute('aria-expanded', 'false'); });
+    }
+    function openMenu(wrap) {
+        closeMenus();
+        wrap.querySelector('.menu-list').hidden = false;
+        wrap.querySelector('.menu-btn').setAttribute('aria-expanded', 'true');
+    }
+    function onMenuPick(e) {
+        var it = e.target.closest('button');
+        if (!it) return;
+        var mode = it.getAttribute('data-mode'), cmd = it.getAttribute('data-cmd');
+        closeMenus();
+        if (mode) window.workbenchMode.set(mode);
+        else if (cmd) run(cmd);
+    }
+    [].forEach.call(document.querySelectorAll('.menu-drop'), function (wrap) {
+        var b = wrap.querySelector('.menu-btn'), l = wrap.querySelector('.menu-list');
+        b.addEventListener('click', function () { if (l.hidden) openMenu(wrap); else closeMenus(); });
+        b.addEventListener('mouseenter', function () { if (!warpOn && anyMenuOpen() && l.hidden) openMenu(wrap); });
+        l.addEventListener('click', onMenuPick);
+    });
+    ctxMenu.addEventListener('click', onMenuPick);
+    document.addEventListener('pointerdown', function (e) {
+        if (!anyMenuOpen()) return;
+        var el = e.target;
+        if (warpOn) { var p = warpPoint(e.clientX, e.clientY); el = document.elementFromPoint(p[0], p[1]) || el; }
+        if (!el.closest || (!el.closest('.menu-drop') && !el.closest('.ctx'))) closeMenus();
+    });
+
+    /* --- right-click menu --- */
+    function showCtx(cx, cy) {
+        closeMenus();
+        var last = history.length ? history[history.length - 1] : null;
+        var items = last ? [['Repeat ' + last.toUpperCase(), '', last]] : [];
+        items = items.concat([['Zoom extents', '', 'zoom'], ['Select all', 'Ctrl+A', 'select all'], ['Toggle grid', 'F7', 'grid'], ['Regen', '', 'regen'], ['Blueprint', '', 'blueprint'], ['Command history', 'F2', 'history']]);
+        ctxMenu.textContent = '';
+        items.forEach(function (it) { ctxMenu.appendChild(menuItem(it)); });
+        var p = warpOn ? warpPoint(cx, cy) : [cx, cy];
+        ctxMenu.style.left = Math.max(4, Math.min(p[0], window.innerWidth - 240)) + 'px';
+        ctxMenu.style.top = Math.max(4, Math.min(p[1], window.innerHeight - 260)) + 'px';
+        ctxMenu.hidden = false;
+    }
+    document.addEventListener('contextmenu', function (e) {
+        if (inXP()) return;
+        if (tool) { e.preventDefault(); endTool('Done.'); return; }
+        var el = e.target;
+        if (warpOn) { var p = warpPoint(e.clientX, e.clientY); el = document.elementFromPoint(p[0], p[1]) || el; }
+        if (!el.closest || !el.closest('#screen') || el.closest('input, textarea')) return;
+        e.preventDefault();
+        showCtx(e.clientX, e.clientY);
+    });
+
+    /* --- clicking windows selects them; double-clicking a title bar rolls it up --- */
+    function mappedTarget(ev) {
+        if (!warpOn) return ev.target;
+        var p = warpPoint(ev.clientX, ev.clientY);
+        return document.elementFromPoint(p[0], p[1]) || ev.target;
+    }
+    document.addEventListener('click', function (ev) {
+        if (tool || inXP() || !ev.isTrusted || ev.detail === 0) return;
+        var el = mappedTarget(ev);
+        if (!el || !el.closest) return;
+        if (el.closest('a, button, input, textarea, canvas, .menu-list, .menubar, .cmdline, .cmdlog')) return;
+        var w = el.closest('.window');
+        if (w && el.closest('#screen')) selectWin(w, ev.ctrlKey || ev.shiftKey || ev.metaKey);
+        else if (el.closest('#screen')) clearSel();
+    });
+    document.addEventListener('dblclick', function (ev) {
+        if (tool || inXP()) return;
+        var el = mappedTarget(ev);
+        if (!el || !el.closest || el.closest('button')) return;
+        var tb = el.closest('.titlebar');
+        if (tb && tb.closest('#screen')) {
+            var w = tb.closest('.window'), c = w.classList.toggle('collapsed');
+            echo((c ? 'Rolled up ' : 'Rolled down ') + winName(w) + '.');
+        }
+    });
+
+    /* --- keys: type anywhere to start a command, F-keys, shortcuts, Konami code --- */
+    var KONAMI = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'], kpos = 0;
     document.addEventListener('keydown', function (e) {
         if (inXP()) return;
+        var key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+        if (key === KONAMI[kpos]) { kpos++; if (kpos === KONAMI.length) { kpos = 0; konami(); } }
+        else kpos = key === KONAMI[0] ? 1 : 0;
         var t = e.target, typing = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable);
         if (e.key === 'F1') { e.preventDefault(); COMMANDS.help(); return; }
         if (e.key === 'F2') { e.preventDefault(); toggleLog(); return; }
+        if (e.key === 'F3') { e.preventDefault(); setOsnap(!osnapOn); return; }
+        if (e.key === 'F6') { e.preventDefault(); cycleCoords(); return; }
         if (e.key === 'F7') { e.preventDefault(); toggleGrid(); return; }
         if (e.key === 'F8') { e.preventDefault(); setOrtho(!ortho); return; }
+        if (e.key === 'F9') { e.preventDefault(); setSnap(!snapOn); return; }
         if ((e.ctrlKey || e.metaKey) && !e.altKey) {
             var k = e.key.toLowerCase();
             if (k === 's') { e.preventDefault(); window.exportWorkbenchLog(); }
-            else if (k === 'z' && !typing) { e.preventDefault(); COMMANDS.undo(); }
+            else if (k === 'z' && !typing) { e.preventDefault(); undo(); }
+            else if (k === 'a' && !typing) { e.preventDefault(); selectAll(); }
             return;
         }
-        if (e.key === 'Escape') { closeMenus(); if (tool) endTool('*Cancel*'); return; }
+        if (e.key === 'Escape') {
+            closeMenus();
+            if (tool) endTool('*Cancel*'); else clearSel();
+            return;
+        }
         if (typing || e.altKey) return;
+        if ((e.key === 'Delete' || e.key === 'Backspace') && selected.length) { e.preventDefault(); eraseSelected(); return; }
         if (e.key === 'Enter' && tool) { endTool('Done.'); return; }
         if (e.key.length === 1 && /[a-z0-9?]/i.test(e.key)) cmdInput.focus();
     });
 
-    document.addEventListener('contextmenu', function (e) {
-        if (tool) { e.preventDefault(); endTool('Done.'); }
+    /* --- pointer: clicks place points while a tool is active (and are remapped for the curved glass) --- */
+    document.addEventListener('click', function (ev) {
+        if (tool && ev.isTrusted && ev.detail !== 0 && ev.target.closest && ev.target.closest('#screen')) {
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+            pick(ev.clientX, ev.clientY);
+            return;
+        }
+        if (!warpOn || !ev.isTrusted || ev.detail === 0) return; // keyboard clicks are not remapped
+        var hit = targetAt(ev.clientX, ev.clientY);
+        var raw = ev.target.closest ? ev.target.closest('a, button') : null;
+        if (hit === raw) return;
+        ev.preventDefault();
+        ev.stopImmediatePropagation();
+        if (hit) hit.click();
+    }, true);
+
+    document.addEventListener('mousemove', function (e) {
+        var mp = warpOn ? warpPoint(e.clientX, e.clientY) : [e.clientX, e.clientY];
+        lastX = mp[0];
+        updateCoords(e);
+        updatePos(lastX);
+        if (crt.classList.contains('xhair')) moveCross(mp);
+        if (tool && first) rubber(e.clientX, e.clientY);
+        if (osnapOn) updateSnapMark(rawPt(e.clientX, e.clientY));
+        if (!warpOn) { if (hot) { hot.classList.remove('hot'); hot = null; } return; }
+        lastEv = e;
+        if (moveQueued) return;
+        moveQueued = true;
+        requestAnimationFrame(function () {
+            moveQueued = false;
+            var t = targetAt(lastEv.clientX, lastEv.clientY);
+            if (t !== hot) {
+                if (hot) hot.classList.remove('hot');
+                if (t) t.classList.add('hot');
+                hot = t;
+            }
+        });
     });
 
-    /* --- Mode dropdown --- */
-    function closeMenus() {
-        modeList.hidden = true;
-        modeBtn.setAttribute('aria-expanded', 'false');
-    }
-    modeBtn.addEventListener('click', function () {
-        var open = modeList.hidden;
-        modeList.hidden = !open;
-        modeBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    modeList.addEventListener('click', function (e) {
-        var b = e.target.closest('button[data-mode]');
-        if (!b) return;
-        closeMenus();
-        window.workbenchMode.set(b.getAttribute('data-mode'));
-    });
-    document.addEventListener('pointerdown', function (e) {
-        if (modeList.hidden) return;
-        var el = e.target;
-        if (warpOn) { var p = warpPoint(e.clientX, e.clientY); el = document.elementFromPoint(p[0], p[1]) || el; }
-        if (!el.closest || !el.closest('.menu-drop')) closeMenus();
-    });
+    // a short welcome so the commands are discoverable
+    setTimeout(function () {
+        if (inXP()) return;
+        echo('Workbench CAD  [Version 1.0]');
+        echo('6 drawings loaded. Type HELP, or just start typing. Right-click for a menu.');
+    }, 1200);
 
     /* Faint animated static, generated once */
     (function () {
@@ -2076,8 +2660,8 @@
 
     /* Clock */
     function updateClock() {
-        document.getElementById('clock').textContent =
-            new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        var opts = clock24 ? { hour: '2-digit', minute: '2-digit', hour12: false } : { hour: 'numeric', minute: '2-digit' };
+        document.getElementById('clock').textContent = new Date().toLocaleTimeString([], opts);
     }
     updateClock();
     setInterval(updateClock, 1000);
@@ -2167,12 +2751,52 @@
             '<div class="np-btns"><button type="button" class="np-btn np-min" aria-label="Minimize">_</button>' +
             '<button type="button" class="np-btn np-max" aria-label="Maximize">\u25A1</button>' +
             '<button type="button" class="np-btn np-close" aria-label="Close">\u00D7</button></div></div>' +
-            '<div class="np-menu" aria-hidden="true"><span>File</span><span>Edit</span><span>Format</span><span>View</span><span>Help</span></div>' +
+            '<div class="np-menu"></div>' +
             '<textarea class="np-text" spellcheck="false"></textarea>';
         el.querySelector('.np-name').textContent = f.name + ' - Notepad';
         var ta = el.querySelector('textarea');
         ta.value = f.text;
         ta.setAttribute('aria-label', f.name);
+
+        var NP_MENUS = [['File', [['Save', 'save'], ['Exit', 'exit']]], ['Edit', [['Select All', 'all'], ['Time/Date', 'time']]],
+                        ['Format', [['Word Wrap', 'wrap']]], ['View', [['Status Bar', 'off']]], ['Help', [['About Notepad', 'about']]]];
+        function npAct(act, btn) {
+            if (act === 'save') {
+                var blob = new Blob([ta.value], { type: 'text/plain' }), url = URL.createObjectURL(blob), a = document.createElement('a');
+                a.href = url; a.download = f.name;
+                document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                notify(f.name + ' was saved.');
+            } else if (act === 'exit') closeWin(w);
+            else if (act === 'all') { ta.focus(); ta.select(); }
+            else if (act === 'time') { ta.focus(); ta.setRangeText(new Date().toLocaleString(), ta.selectionStart, ta.selectionEnd, 'end'); }
+            else if (act === 'wrap') {
+                var on = btn.getAttribute('aria-checked') !== 'true';
+                btn.setAttribute('aria-checked', on ? 'true' : 'false');
+                ta.style.whiteSpace = on ? 'pre-wrap' : 'pre';
+            } else if (act === 'about') notify('Notepad: just a pile of text files. Made with Claude while experimenting with its features.');
+        }
+        NP_MENUS.forEach(function (m) {
+            var wrap = document.createElement('div'), mb = document.createElement('button'), dd = document.createElement('div');
+            wrap.className = 'np-m'; mb.type = 'button'; mb.className = 'np-mb'; mb.textContent = m[0];
+            dd.className = 'np-dd'; dd.hidden = true;
+            m[1].forEach(function (it) {
+                var b = document.createElement('button');
+                b.type = 'button'; b.textContent = it[0]; b.setAttribute('data-act', it[1]);
+                if (it[1] === 'off') b.disabled = true;
+                if (it[1] === 'wrap') b.setAttribute('aria-checked', 'true');
+                dd.appendChild(b);
+            });
+            mb.addEventListener('click', function () { var open = dd.hidden; closeNpMenus(); dd.hidden = !open; });
+            dd.addEventListener('click', function (e) {
+                var b = e.target.closest('button');
+                if (!b || b.disabled) return;
+                closeNpMenus();
+                npAct(b.getAttribute('data-act'), b);
+            });
+            wrap.appendChild(mb); wrap.appendChild(dd);
+            el.querySelector('.np-menu').appendChild(wrap);
+        });
 
         var tb = document.createElement('button');
         tb.type = 'button';
@@ -2262,6 +2886,7 @@
     }
 
     /* --- start menu, icons, balloon, clock --- */
+    function closeNpMenus() { [].forEach.call(root.querySelectorAll('.np-dd'), function (d) { d.hidden = true; }); }
     function closeStart() { startMenu.hidden = true; startBtn.setAttribute('aria-expanded', 'false'); }
     startBtn.addEventListener('click', function () {
         var open = startMenu.hidden;
@@ -2271,6 +2896,7 @@
     document.addEventListener('pointerdown', function (e) {
         if (!startMenu.hidden && !e.target.closest('#xp-startmenu') && !e.target.closest('#xp-start')) closeStart();
         if (mode === 'xp' && !e.target.closest('.xp-icon')) selectIcon(null);
+        if (!e.target.closest('.np-m')) closeNpMenus();
     });
     function notify(msg) {
         if (mode !== 'xp') return;
@@ -2296,6 +2922,11 @@
     document.getElementById('sm-cad').addEventListener('click', function () { leave(); });
     document.getElementById('sm-logoff').addEventListener('click', function () { leave(); });
     document.getElementById('sm-off').addEventListener('click', function () { leave(); });
+
+    document.getElementById('xp-vol').addEventListener('click', function () { notify('Volume: this computer has no sound. Sorry about the missing startup chime.'); });
+    document.getElementById('xp-clockbtn').addEventListener('click', function () {
+        notify(new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
+    });
 
     function tickClock() {
         document.getElementById('xp-clock').textContent = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
